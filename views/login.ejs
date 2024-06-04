@@ -5,6 +5,13 @@
 </head>
 <body>
     <h1>Login Page</h1>
+    <% if (message && message.length > 0) { %>
+        <div style="color: red;">
+            <% message.forEach(msg => { %>
+                <p><%= msg %></p>
+            <% }); %>
+        </div>
+    <% } %>
     <form method="post" action="/login">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username">

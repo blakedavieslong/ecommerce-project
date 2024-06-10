@@ -12,7 +12,7 @@ const asyncHandler = fn => (req, res, next) => {
 createAccountRouter.post('/', asyncHandler(async (req, res) => {
     const { username, password } = req.body;
 
-    const existingUser = await db.users.findOne({ where: { username } });
+    const existingUser = await db.User.findOne({ where: { username } });
  
     if(existingUser) {
         return res.status(409).render('createAccount', { message: 'Username already exists' });
@@ -20,7 +20,7 @@ createAccountRouter.post('/', asyncHandler(async (req, res) => {
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt) 
-    const newUser = await db.users.create({ username: username, password: hashedPassword });
+    const newUser = await db.User.create({ username: username, password: hashedPassword });
 
     if(newUser) {
         return res.status(201).redirect(`/users/${newUser.id}`);

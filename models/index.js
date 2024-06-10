@@ -12,6 +12,11 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 // Import models
-db.users = require('./user.js')(sequelize, DataTypes);
+db.User = require('./user.js')(sequelize, DataTypes);
+db.Product = require('./products.js')(sequelize, Sequelize.DataTypes);
+db.Image = require('./images.js')(sequelize, Sequelize.DataTypes);
+
+db.Product.hasMany(db.Image, {as: 'images', foreignKey: 'product_id'});
+db.Image.belongsTo(db.Product, {foreignKey: 'product_id'});
 
 module.exports = db;

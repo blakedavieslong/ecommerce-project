@@ -10,7 +10,8 @@ const express = require('express'),
       flash = require('express-flash'),
       loginRouter = require('./routes/login.js'),
       createAccountRouter = require('./routes/createAccount.js'),
-      usersRouter = require('./routes/users.js');
+      usersRouter = require('./routes/users.js'),
+      productsRouter = require('./routes/products.js');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -18,13 +19,17 @@ app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(flash());
 
+
 app.use(session({
     secret: "test",
     cookie: { maxAge: 300000000, secure: false },
     saveUninitialized: false,
     resave: false,
-    store,
+    store
 }));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 passport.use(new LocalStrategy(function (username, password, done) {
     console.log('Login attempt with username:', username);
@@ -40,7 +45,7 @@ passport.use(new LocalStrategy(function (username, password, done) {
             return done(null, false, { message: 'Incorrect username or password' });
         }
         console.log('Authentication successful');
-        return cb(null, user);
+        return done(null, user);
     }).catch(err => {console.error('Error during authentication:', err); done(err)});
 }));
 
@@ -57,6 +62,7 @@ passport.deserializeUser((id, cb) => {
 app.use('/login', loginRouter);
 app.use('/createAccount', createAccountRouter);
 app.use('/users', usersRouter);
+app.use('/products', productsRouter)
 
 app.get('/', (req, res) => {
     res.send('Welcome to the main page.')

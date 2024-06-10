@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product List</title>
+</head>
+<body>
+    <h1>Product List</h1>
+    <% if (products.length > 0) { %>
+        <ul>
+            <% products.forEach(product => { %>
+                <li>
+                  <h2><%= product.name %></h2>
+                  <% if (product.images.length > 0) { %>
+                    <% product.images.forEach(image => { %>
+                      <img src="<%= '/images/products/' + image.image_url %>" alt="<%= product.name %> image" style="width:90px;height:auto;">
+                    <% }) %>
+                  <% } %>
+                  <p><%= product.description %></p>
+                  <p>Price: $<%= product.price %></p>
+                </li>
+            <% }) %>
+        </ul>
+    <% } else { %>
+        <p>No products available.</p>
+    <% } %>
+</body>
+</html>

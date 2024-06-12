@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <% if (product) { %>    
+        <title><%= product.name %></title>
+    <% } else { %>
+        <title>No Product Found</title>
+    <% } %>
+</head>
+<body>
+    <% if (product) { %> 
+        <h1><%= product.name %></h1>
+        <% if (product.images && product.images.length > 0) { %>
+            <% product.images.forEach(image => { %>
+            <img src="<%= '/images/products/' + image.image_url %>" alt="<%= product.name %> image" style="width:90px;height:auto;">
+            <% }) %>
+        <% } %>
+        <p><%= product.description %></p>
+        <p>Price: $<%= product.price %></p>
+    <% } else { %>
+        <p>No product available.</p>
+    <% } %>
+</body>
+</html>

@@ -31,14 +31,15 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use(new LocalStrategy(function (username, password, done) {
-    console.log('Login attempt with username:', username);
-    db.users.findOne({ where: {username } }).then(async user => {
+passport.use(new LocalStrategy(async (username, password, done) => {
+    try{
+        console.log('Login attempt with username:', username);
+        const user = await db.User.findOne({ where: {username } });
+
         if (!user) {
             console.log('User not found');
             return done(null, false, { message: 'User not found' });
         }
-
         const matchedPassword = await bcrypt.compare(password, user.password);
         if (!matchedPassword) {
             console.log('Incorrect password');
@@ -46,7 +47,10 @@ passport.use(new LocalStrategy(function (username, password, done) {
         }
         console.log('Authentication successful');
         return done(null, user);
-    }).catch(err => {console.error('Error during authentication:', err); done(err)});
+    } catch (err) {
+        console.error('Error during authentication:', err);
+        return done(err);
+    }
 }));
 
 passport.serializeUser((user, cb) => {
@@ -54,7 +58,7 @@ passport.serializeUser((user, cb) => {
 });
 
 passport.deserializeUser((id, cb) => {
-    db.users.findByPk(id).then(user => {
+    db.User.findByPk(id).then(user => {
         cb(null, user);
     }).catch(err => cb(err));
 });
@@ -65,7 +69,7 @@ app.use('/users', usersRouter);
 app.use('/products', productsRouter)
 
 app.get('/', (req, res) => {
-    res.send('Welcome to the main page.')
+    res.render('landingPage');
 });
 
 app.use((err, req, res, next) => {

@@ -1,15 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Poké Mart</title>
+    <title>
+        <% if (user) { %>    
+            Poké Mart - Profile
+        <% } else { %>
+            Poké Mart - Missing Profile
+        <% } %>
+    </title>
 </head>
 <body>
-    <h1>Welcome to the Poké Mart</h1>
-    <form method="get" action="/login">
-        <button type="submit">Login</button>
+    <% if (user) { %> 
+        <h1><%= user.username %></h1>
+    <% } else { %>
+        <p>No user profile available.</p>
+    <% } %>
+    <form method="get" action="/products">
+        <button type="submit">See Products</button>
     </form>
-    <form method="get" action="/createAccount">
-        <button type="submit">Create Account</button>
+    <form method="get" action="/users/<%= user.id %>/cart">
+        <button type="submit">See Cart</button>
     </form>
 </body>
 </html>

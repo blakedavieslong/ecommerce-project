@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Poké Mart - Cart</title>
+</head>
+<body>
+    <h1>Cart Items</h1>
+    <% if (cartItems.length > 0) { %>
+        <ul>
+            <% cartItems.forEach(item => { %>
+                <li>
+                    <h2><%= item.product.name %></h2>
+                    <% if (item.product.images.length > 0) { %>
+                        <% item.product.images.forEach(image => { %>
+                        <img src="<%= '/images/products/' + image.image_url %>" alt="<%= item.product.name %> image" style="width:90px;height:auto;">
+                        <% }) %>
+                    <% } %>
+                    <p><%= item.product.description %></p>
+                    <p>Price: $<%= item.product.price %></p>
+                    <p>Quantity: <%= item.cartItem.quantity %></p>
+                </li>
+            <% }) %>
+        </ul>
+    <% } else { %>
+        <p>Cart is empty</p>
+    <% } %>
+</body>
+</html>

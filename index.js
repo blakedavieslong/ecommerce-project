@@ -11,7 +11,8 @@ const express = require('express'),
       loginRouter = require('./routes/login.js'),
       createAccountRouter = require('./routes/createAccount.js'),
       usersRouter = require('./routes/users.js'),
-      productsRouter = require('./routes/products.js');
+      productsRouter = require('./routes/products.js'),
+      cartRouter = require('./routes/cart.js');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -67,6 +68,7 @@ app.use('/login', loginRouter);
 app.use('/createAccount', createAccountRouter);
 app.use('/users', usersRouter);
 app.use('/products', productsRouter)
+app.use('/cart', cartRouter);
 
 app.get('/', (req, res) => {
     res.render('landingPage');

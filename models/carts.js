@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const Carts = sequelize.define('Carts', {
+    const Cart = sequelize.define('Cart', {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
@@ -18,5 +18,5 @@ module.exports = (sequelize, DataTypes) => {
         timestamps: false
     });
 
-    return Carts;
+    return Cart;
 };

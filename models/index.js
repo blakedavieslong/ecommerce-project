@@ -18,9 +18,13 @@ db.Image = require('./images.js')(sequelize, Sequelize.DataTypes);
 db.Cart = require('./carts.js')(sequelize, DataTypes);
 db.CartItem = require('./cartItems.js')(sequelize, DataTypes);
 
-db.Product.hasMany(db.Image, {as: 'images', foreignKey: 'product_id'});
-db.Image.belongsTo(db.Product, {foreignKey: 'product_id'});
-db.Cart.hasMany(db.CartItem, { foreignKey: 'cart_id' });
-db.CartItem.belongsTo(db.Cart, { foreignKey: 'cart_id' });
+//Create model associations
+db.Product.hasMany(db.Image, {as: 'images', foreignKey: 'product_id' });
+db.Product.hasMany(db.CartItem, { foreignKey: 'product_id' });
+db.Image.belongsTo(db.Product, {foreignKey: 'product_id', as: 'product' });
+db.Cart.hasMany(db.CartItem, { foreignKey: 'cart_id', as: 'cartItems' });
+db.CartItem.belongsTo(db.Cart, { foreignKey: 'cart_id', as: 'cart' });
+db.CartItem.belongsTo(db.Product, { foreignKey: 'product_id', as: 'product' });
+db.User.hasOne(db.Cart, {foreignKey: 'user_id'});
 
 module.exports = db;

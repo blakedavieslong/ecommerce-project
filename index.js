@@ -8,6 +8,7 @@ const express = require('express'),
       store = new session.MemoryStore(),
       bcrypt = require('bcrypt'),
       flash = require('express-flash'),
+      isAuthenticated = require('./utils/isAuthenticated.js'),
       loginRouter = require('./routes/login.js'),
       createAccountRouter = require('./routes/createAccount.js'),
       usersRouter = require('./routes/users.js'),
@@ -72,6 +73,17 @@ app.use('/cart', cartRouter);
 
 app.get('/', (req, res) => {
     res.render('landingPage');
+});
+
+app.get('/logout', isAuthenticated, (req, res) => {
+    req.logout();
+    req.session.destroy((err) => {
+        if (err) {
+            console.error('Error logging out:', err);
+            return res.status(500).send('Internal Server Error');
+        }
+        res.redirect('/');
+    });
 });
 
 app.use((err, req, res, next) => {

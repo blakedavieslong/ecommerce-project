@@ -20,6 +20,21 @@
                 <p>Item Price: $<%= item.product.price %></p>
                 <p>Quantity: <%= item.cartItem.quantity %></p>
                 <p>Subtotal: $<%= (item.product.price * item.cartItem.quantity).toFixed(2) %></p>
+                <form method="post" action="/cart/updateQuantity">
+                    <input type="hidden" name="product_id" value="<%= item.product.id %>">
+                    <label for="quantity_<%= item.product.id %>">Quantity</label>
+                    <select name="quantity" id="quantity_<%= item.product.id %>">
+                        <option value="1" <%= item.cartItem.quantity === 1 ? 'selected' : '' %>>1</option>
+                        <option value="2" <%= item.cartItem.quantity === 2 ? 'selected' : '' %>>2</option>
+                        <option value="3" <%= item.cartItem.quantity === 3 ? 'selected' : '' %>>3</option>
+                        <option value="4" <%= item.cartItem.quantity === 4 ? 'selected' : '' %>>4</option>
+                        <option value="5" <%= item.cartItem.quantity === 5 ? 'selected' : '' %>>5</option>
+                    </select>
+                    <button type="submit">Update Quanity</button>
+                </form>
+                <form action="/cart/delete/<%= item.cartItem.id %>" method="POST">
+                    <button type="submit">Remove from Cart</button>
+                </form>
             </li>
         <% }) %>
     </ul>
